@@ -11,14 +11,12 @@ function Tarefas() {
 
     const apiURL = 'https://todo-list-iy82.onrender.com/tarefas'
 
-
+    // GET 
     useEffect(() => {
-        // GET 
         fetch(apiURL)
             .then(response => response.json())
             .then(data => {
                 setData(data)
-                console.log(data);
             })
             .catch(error => console.error(error));
     }, []);
@@ -26,38 +24,38 @@ function Tarefas() {
     // POST 
     const submitTarefa = () => {
         if (tarefa === '') {
-          alert("Digite uma tarefa válida!");
+            alert("Digite uma tarefa válida!");
         } else {
-          const novoItem = {
-            id: Math.random(),
-            todo: tarefa,
-            status: false,
-          };
-      
-          fetch(apiURL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(novoItem),
-          })
-            .then(response => response.json())
-            .then(() => {
-              setTarefa('');
-              fetch(apiURL) 
+            const novoItem = {
+                id: Math.random(),
+                todo: tarefa,
+                status: false,
+            };
+
+            fetch(apiURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(novoItem),
+            })
                 .then(response => response.json())
-                .then(data => {
-                  setData(data);
+                .then(() => {
+                    setTarefa('');
+                    fetch(apiURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            setData(data);
+                        })
+                        .catch(error => {
+                            console.error('Erro:', error);
+                        });
                 })
                 .catch(error => {
-                  console.error('Erro:', error);
+                    console.error('Erro:', error);
                 });
-            })
-            .catch(error => {
-              console.error('Erro:', error);
-            });
         }
-      };
+    };
 
     const handleStatus = (id) => {
         const novaLista = data.map((item) => {
@@ -73,15 +71,25 @@ function Tarefas() {
         setData(novaLista);
     }
 
+    // DELETE 
     const eraseTask = (id) => {
-        const indice = data.findIndex((item) => item.id === id);
-
-        if (indice !== -1) {
-            const novaLista = [...data];
-            novaLista.splice(indice, 1);
-            setData(novaLista);
-        }
-    }
+        fetch(`${apiURL}/${id}`, {
+            method: 'DELETE',
+        })
+            .then(() => {
+                const novaLista = data.filter(item => item.id !== id);
+                setData(novaLista)
+                .then(data => {
+                    setData(novaLista);
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                })
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    };
 
     return (
         <div className='content'>
