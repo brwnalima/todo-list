@@ -23,42 +23,6 @@ function Tarefas() {
             .catch(error => console.error(error));
     }, []);
 
-
-
-
-    // const [response, setResponse] = useState(null);
-
-    // const postData = async () => {
-    //     const url = 'http://localhost:3000/api/todos'; // Substitua pela URL correta da sua API
-
-    //     const data = {
-    //         id: 5,
-    //         todo: 'Nova tarefa',
-    //         status: false
-    //     };
-
-    //     try {
-    //         const response = await fetch(url, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(data)
-    //         });
-
-    //         const json = await response.json();
-    //         setResponse(json);
-    //     } catch (error) {
-    //         console.error('Erro:', error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     postData();
-    // }, []);
-
-
-
     const submitTarefa = () => {
 
         if (tarefa === '') {
