@@ -23,20 +23,41 @@ function Tarefas() {
             .catch(error => console.error(error));
     }, []);
 
+    // POST 
     const submitTarefa = () => {
-
         if (tarefa === '') {
-            alert("Digite uma tarefa válida!")
+          alert("Digite uma tarefa válida!");
         } else {
-            const novoItem = {
-                id: Math.random(),
-                todo: tarefa,
-                status: false,
-            };
-            setData([...data, novoItem]);
-            setTarefa('')
+          const novoItem = {
+            id: Math.random(),
+            todo: tarefa,
+            status: false,
+          };
+      
+          fetch(apiURL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(novoItem),
+          })
+            .then(response => response.json())
+            .then(() => {
+              setTarefa('');
+              fetch(apiURL) 
+                .then(response => response.json())
+                .then(data => {
+                  setData(data);
+                })
+                .catch(error => {
+                  console.error('Erro:', error);
+                });
+            })
+            .catch(error => {
+              console.error('Erro:', error);
+            });
         }
-    }
+      };
 
     const handleStatus = (id) => {
         const novaLista = data.map((item) => {
