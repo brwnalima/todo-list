@@ -1,39 +1,63 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Tarefa.css'
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { LuTrash2 } from "react-icons/lu";
 import { BsPlusLg } from "react-icons/bs";
 
-
-
-const list = [
-    {
-        id: 1,
-        todo: 'Tomar café',
-        status: true
-    },
-    {
-        id: 2,
-        todo: 'Tomar banho',
-        status: true
-    },
-    {
-        id: 3,
-        todo: 'Estudar',
-        status: false
-    },
-    {
-        id: 4,
-        todo: 'Trabalhar',
-        status: false
-    },
-
-]
-
 function Tarefas() {
 
     const [tarefa, setTarefa] = useState('')
-    const [lista, setLista] = useState(list)
+    const [data, setData] = useState([]);
+
+    const apiURL = 'https://todo-list-iy82.onrender.com/tarefas'
+
+
+    useEffect(() => {
+        // GET 
+        fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                setData(data)
+                console.log(data);
+            })
+            .catch(error => console.error(error));
+    }, []);
+
+
+
+
+    // const [response, setResponse] = useState(null);
+
+    // const postData = async () => {
+    //     const url = 'http://localhost:3000/api/todos'; // Substitua pela URL correta da sua API
+
+    //     const data = {
+    //         id: 5,
+    //         todo: 'Nova tarefa',
+    //         status: false
+    //     };
+
+    //     try {
+    //         const response = await fetch(url, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
+    //         });
+
+    //         const json = await response.json();
+    //         setResponse(json);
+    //     } catch (error) {
+    //         console.error('Erro:', error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     postData();
+    // }, []);
+
+
 
     const submitTarefa = () => {
 
@@ -45,13 +69,13 @@ function Tarefas() {
                 todo: tarefa,
                 status: false,
             };
-            setLista([...lista, novoItem]);
+            setData([...data, novoItem]);
             setTarefa('')
         }
     }
 
     const handleStatus = (id) => {
-        const novaLista = lista.map((item) => {
+        const novaLista = data.map((item) => {
             if (item.id === id) {
                 return {
                     ...item,
@@ -61,23 +85,22 @@ function Tarefas() {
             return item;
         });
 
-        setLista(novaLista);
+        setData(novaLista);
     }
 
     const eraseTask = (id) => {
-        const indice = lista.findIndex((item) => item.id === id);
+        const indice = data.findIndex((item) => item.id === id);
 
         if (indice !== -1) {
-            const novaLista = [...lista];
+            const novaLista = [...data];
             novaLista.splice(indice, 1);
-            setLista(novaLista);
+            setData(novaLista);
         }
     }
 
     return (
         <div className='content'>
             <div className="header">
-                {/* <FaRegListAlt/> */}
                 <h1>Tarefas</h1>
             </div>
 
@@ -90,10 +113,10 @@ function Tarefas() {
                         value={tarefa}
                         onChange={(e) => setTarefa(e.target.value)}
                     />
-                    <button className='submit' onClick={submitTarefa}><BsPlusLg/></button>
+                    <button className='submit' onClick={submitTarefa}><BsPlusLg /></button>
                 </div>
 
-                {lista.map((item) => {
+                {data.map((item) => {
                     return (
                         <ul className="list" key={item.id}>
                             <li className={item.status ? "done" : "notDone"}>
