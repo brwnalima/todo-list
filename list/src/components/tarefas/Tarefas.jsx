@@ -57,12 +57,30 @@ function Tarefas() {
         }
     };
 
+    // PATCH
     const handleStatus = (id) => {
         const novaLista = data.map((item) => {
             if (item.id === id) {
+                const novoStatus = !item.status;
+
+                fetch(`${apiURL}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: novoStatus }),
+                })
+                    .then(response => response.json())
+                    .then(updatedUser => {
+                        console.log('Status do usuário atualizado:', updatedUser);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao atualizar o status do usuário:', error);
+                    });
+
                 return {
                     ...item,
-                    status: !item.status,
+                    status: novoStatus,
                 };
             }
             return item;
@@ -79,12 +97,12 @@ function Tarefas() {
             .then(() => {
                 const novaLista = data.filter(item => item.id !== id);
                 setData(novaLista)
-                .then(data => {
-                    setData(novaLista);
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                })
+                    .then(data => {
+                        setData(novaLista);
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                    })
             })
             .catch(error => {
                 console.error('Erro:', error);
