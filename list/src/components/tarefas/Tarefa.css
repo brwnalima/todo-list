@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.header {
+    margin: 8rem 0 0;
+    width: 30%;
+    text-align: center;
+    background-color: #fff;
+    color: #242424;
+    border-radius: .2rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+.tasks-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    width: 30%;
+    background-color: #fff;
+    color: #242424;
+    padding: 3rem;
+    border-radius: .2rem;
+}
+
+.task-adding {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .7rem;
+    padding: 1.5rem 0;
+}
+
+
+
+.task-adding input {
+    padding: .4rem;
+}
+
+.tasks-wrapper li {
+    display: flex;
+    flex-direction: row;
+    gap: .7rem;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+
+}
+
+.tasks-wrapper li p {
+    font-size: 1.3rem;
+}
+
+.tasks-wrapper button {
+    background-color: transparent;
+    border: none;
+    color: #242424;
+    font-weight: bolder;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+
+
+.tasks-wrapper button:last-child {
+    opacity: .5;
+}
+
+.tasks-wrapper button:hover {
+    transition: all .3s ease-in-out;
+    scale: 1.3;
+    opacity: 1;
+}
+
+.task-adding .submit {
+    opacity: .8 !important;
+    font-size: 1.2rem;
+}
+
+@keyframes flipAnimation {
+    0% {
+        transform: perspective(800px) rotateY(0deg);
+    }
+
+    50% {
+        transform: perspective(800px) rotateY(180deg);
+    }
+
+    100% {
+        transform: perspective(800px) rotateY(0deg);
+    }
+}
+
+
+.task-adding .submit:hover {
+    opacity: 1 !important;
+    scale: 1.3;
+    animation: flipAnimation 1s ease-in-out;
+}
+
+
+.done {
+    text-decoration: line-through;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+    .header,
+    .tasks-wrapper {
+      width: 70%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header,
+    .tasks-wrapper {
+      width: 90%;
+    }
+  }
